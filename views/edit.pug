@@ -17,13 +17,21 @@ head
             overflow: auto;
             width: 200px;
             min-width: 200px;
-            padding: 150px 0;
+            resize: horizontal;
+            padding: 135px 0;
             box-sizing: border-box;
         }
 
         .light aside {
-            background: #ddd
+            background: #e5e5e5
         }
+
+        #editor h1,
+        #editor h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
         aside a {
             padding: 10px 15px;
             display: block;
@@ -52,8 +60,9 @@ head
         .light aside a:hover {
             background: #bbb
         }
+
         .light aside a.target {
-            background: #aaa
+            background: #fff
         }
 
         #editblock {
@@ -97,7 +106,7 @@ head
         }
 
         #editor {
-            padding: 30px 60px;
+            padding: 30px 70px;
             padding-top: 6px;
             padding-right: 0;
             overflow: auto; 
@@ -113,31 +122,54 @@ head
         }
         .light #editor {
             color: #222;
-            background: #eee;
+            background: #fff;
         }
 
-        #editor p {
+        #editor p,
+        #editor h1,
+        #editor h2,
+        #editor pre,
+        #editor blockquote {
             position: relative;
+            padding: 10px 0
         }
         #editor p:before,
         #editor h1:before,
-        #editor h2:before {
+        #editor h2:before,
+        #editor pre:before,
+        #editor blockquote:before {
             content: "¶";
             display: inline-block;
+            position: absolute;
             width: 50px;
             text-align: right;
-            margin-left: -60px;
-            margin-right: 10px;
+            padding: 5px 10px;
+            right: 100%;
+            vertical-align: bottom;
+            bottom: 0;
+            box-sizing: border-box;
+            height: 100%;
+            border-right: solid 1px #fff3;
             font-size: 1rem;
             opacity: 0.3;
+            margin-right: 10px;
         }
 
+        #editor blockquote {
+            margin-left: 0;
+        }
 
+        #editor pre:before {
+            content: "/"
+        }
         #editor h1:before {
             content: "#"
         }
         #editor h2:before {
             content: "##"
+        }
+        #editor blockquote:before {
+            content: "\""
         }
 
         #editor:focus {
@@ -159,7 +191,7 @@ head
         }
 
         .light #formatting {
-            background: #eee;
+            background: #fff;
         }
 
         #formatting button {
@@ -168,7 +200,6 @@ head
             font-size: 20px;
             padding: 5px 10px;
             margin: 0px;
-            width: 40px;
             color: #aaa;
         }
 
@@ -188,16 +219,15 @@ head
 
         #h1, #h2, #p {
             font-weight: bold;
-            width: auto !important;
         }
-        #h1:before, #h2:before, #p:before {
+        #h1:before, #h2:before, #p:before, #code:before, #blockquote:before {
             content: "<";
+            opacity: 0.4;
             font-weight: normal;
-            font-size: 10px;
         }
-        #h1:after, #h2:after, #p:after {
+        #h1:after, #h2:after, #p:after, #code:after, #blockquote:after {
             content: ">";
-            font-size: 10px;
+            opacity: 0.4;
             font-weight: normal;
         }
 
@@ -230,6 +260,8 @@ body(class=theme)
             button#bold(onclick='document.execCommand("bold", false, null)') B
             button#italic(onclick='document.execCommand("italic", false, null)') I
             button#underline(onclick='document.execCommand("underline", false, null)') U
+            button#blockquote(onclick='document.execCommand("formatBlock", false, "blockquote")') QUOTE
+            button#code(onclick='document.execCommand("formatBlock", false, "pre")') /
         #editor(contenteditable='true')!=article.body
     script.
         document.querySelector("#editor").oninput = function() {

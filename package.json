@@ -14,5 +14,23 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.4"
-  }
+  },
+  "description": "A super-simple CMS for simple websites",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zsty/helled.git"
+  },
+  "keywords": [
+    "CMS"
+  ],
+  "author": "zsty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zsty/helled/issues"
+  },
+  "homepage": "https://github.com/zsty/helled#readme"
 }

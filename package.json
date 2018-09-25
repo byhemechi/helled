@@ -1,4 +1,6 @@
 {
+  "name": "helled",
+  "version": "1.0.0",
   "dependencies": {
     "bcrypt": "^3.0.1",
     "body-parser": "^1.18.3",

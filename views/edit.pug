@@ -23,7 +23,7 @@ head
         }
 
         .light aside {
-            background: #e5e5e5
+            background: #fafafa
         }
 
         #editor h1,
@@ -76,7 +76,7 @@ head
         }
 
         .light #editblock {
-            background: #e5e5e5;
+            background: #fafafa;
             color: #333
         }
         #editblock input, #editblock .edit {
@@ -237,7 +237,7 @@ head
         #new::before {
             content: "+ "
         }
-body(class=theme)
+body(class=theme ? "light" : "")
     aside
         a(href='/admin/edit/index', class=page == "/index" ? "target" : "") 
             | Home

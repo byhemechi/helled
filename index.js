@@ -16,7 +16,8 @@ mongoose.connect('mongodb://localhost/helled', { useNewUrlParser: true });
 const Schema = mongoose.Schema;
 const UserDetail = new Schema({
       username: String,
-      password: String
+      password: String,
+      light: Number
     });
 const UserDetails = mongoose.model('userInfo', UserDetail, 'userInfo');
 
@@ -68,11 +69,9 @@ passport.use(new LocalStrategy(
 
 app.post('/admin/login', passport.authenticate('local', { failureRedirect: '/admin/login' }), function(req, res) {
   res.redirect(req.body.from || '/admin/edit/');
-  console.log(req.body.from)
 });
 
 app.get("/admin/login", function(req, res) {
-  console.log(req.query)
   res.render(__dirname + "/views/login", {from: req.query.from})
 })
 
@@ -81,7 +80,7 @@ app.use("/admin/edit/", function(req, res) {
     var posts = JSON.parse(fs.readFileSync(config.posts, "utf-8"))
     var article = posts[req.url.replace(/^\/$/, "/index")] || {}
     res.render(__dirname + "/views/edit", {
-      article, posts, page: req.url, theme: req.user.theme
+      article, posts, page: req.url, theme: req.user.light
     })
   } else {
     res.redirect("/admin/login?from=/admin/edit" + req.url)

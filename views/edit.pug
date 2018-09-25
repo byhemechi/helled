@@ -1,0 +1,281 @@
+doctype html
+head
+    style.
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+        }
+        aside {
+            flex: 0 1 auto;
+            background: #0a0a0a;
+            overflow: auto;
+            width: 200px;
+            min-width: 200px;
+            padding: 150px 0;
+            box-sizing: border-box;
+        }
+
+        .light aside {
+            background: #ddd
+        }
+        aside a {
+            padding: 10px 15px;
+            display: block;
+            color: #fff;
+            font-family: sans-serif;
+            text-decoration: none;
+        }
+
+        aside a span {
+            opacity: 0.3;
+            float: right;
+            margin-left: 10px;
+        }
+
+        .light aside a {
+            color: #111
+        }
+
+        aside a:hover {
+            background: #111
+        }
+        aside a.target {
+            background: #1a1a1a
+        }
+
+        .light aside a:hover {
+            background: #bbb
+        }
+        .light aside a.target {
+            background: #aaa
+        }
+
+        #editblock {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            background: #111;
+            padding: 0;
+            padding-top: 15px;
+            color: #fff;
+        }
+
+        .light #editblock {
+            background: #e5e5e5;
+            color: #333
+        }
+        #editblock input, #editblock .edit {
+            background: inherit;
+            border: 0;
+            padding: 7px 25px;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            font-size: 24px;
+            color: inherit;
+            width: 100%;
+            white-space: wrap;
+            display: block;
+        }
+        
+        #controls {
+            padding-bottom: 15px;
+            height: 130px
+        }
+
+        #editblock input:focus, #editblock .edit:focus {
+            outline: 0;
+        }
+
+        #title {
+            font-size: 32px;
+        }
+
+        #editor {
+            padding: 30px 60px;
+            padding-top: 6px;
+            padding-right: 0;
+            overflow: auto; 
+            background: #1a1a1a;
+            width: 100%;
+            word-wrap: break-word;
+            max-width: calc(100vw - 200px);
+            box-sizing: border-box;
+            height: 100%;
+            font-family: sans-serif;
+            font-size: 16px;
+            color: #fff;
+        }
+        .light #editor {
+            color: #222;
+            background: #eee;
+        }
+
+        #editor p {
+            position: relative;
+        }
+        #editor p:before,
+        #editor h1:before,
+        #editor h2:before {
+            content: "¶";
+            display: inline-block;
+            width: 50px;
+            text-align: right;
+            margin-left: -60px;
+            margin-right: 10px;
+            font-size: 1rem;
+            opacity: 0.3;
+        }
+
+
+        #editor h1:before {
+            content: "#"
+        }
+        #editor h2:before {
+            content: "##"
+        }
+
+        #editor:focus {
+            outline: 0;
+        }
+        #value {
+            display: none;
+        }
+        #save {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+
+        #formatting {
+            background: #1a1a1a;
+            padding: 12px 25px;
+            padding-bottom: 6px;
+        }
+
+        .light #formatting {
+            background: #eee;
+        }
+
+        #formatting button {
+            background: transparent;
+            border: 0;
+            font-size: 20px;
+            padding: 5px 10px;
+            margin: 0px;
+            width: 40px;
+            color: #aaa;
+        }
+
+        .light #formatting button {
+            color: #555;
+        }
+
+        #bold {
+            font-weight: bold;
+        }
+        #italic {
+            font-style: italic;
+        }
+        #underline {
+            text-decoration: underline;
+        }
+
+        #h1, #h2, #p {
+            font-weight: bold;
+            width: auto !important;
+        }
+        #h1:before, #h2:before, #p:before {
+            content: "<";
+            font-weight: normal;
+            font-size: 10px;
+        }
+        #h1:after, #h2:after, #p:after {
+            content: ">";
+            font-size: 10px;
+            font-weight: normal;
+        }
+
+        #new {
+            opacity: 0.3
+        }
+        #new::before {
+            content: "+ "
+        }
+body(class=theme)
+    aside
+        a(href='/admin/edit/index', class=page == "/index" ? "target" : "") 
+            | Home
+            span /
+        for i,j in posts
+            if j != "/index"
+                a(href='/admin/edit' + j, class=page == j ? "target" : "")
+                    =i.title || "Untitled"
+                    span=" " + j    
+        a(href='#')#new New Page
+    button#save Save
+    #editblock
+        #controls
+            input#title(value=article.title, style='font-size: 32px;', placeholder='Untitled')
+            .edit#subtitle(contenteditable='true')=article.intro
+        #formatting
+            button#h1(onclick='document.execCommand("formatBlock", false, "H1")') H1
+            button#h2(onclick='document.execCommand("formatBlock", false, "H2")') H2
+            button#h2(onclick='document.execCommand("formatBlock", false, "P")') P
+            button#bold(onclick='document.execCommand("bold", false, null)') B
+            button#italic(onclick='document.execCommand("italic", false, null)') I
+            button#underline(onclick='document.execCommand("underline", false, null)') U
+        #editor(contenteditable='true')!=article.body
+    script.
+        document.querySelector("#editor").oninput = function() {
+            var fonts = document.querySelectorAll("#editor font")
+            for(let i in fonts) {
+                fonts[i].outerHTML = fonts[i].innerHTML
+            }
+        }
+
+        window.onkeypress = function(e) {
+            if(e.key.toLowerCase() == "s" && e.ctrlKey) {
+                document.querySelector("#save").onclick()
+                e.preventDefault();
+            }
+        }
+
+        document.querySelector("#new").onclick = function() {
+            var newurl = "/" + prompt("What whould the new page be called?").replace(/^\//, "")
+            location.href='/admin/edit' + newurl
+        }
+
+        document.querySelector("#save").onclick = function(e) {
+            e.target.disabled = true;
+            e.target.textContent = "saving..."
+
+            
+
+            var http = new XMLHttpRequest();
+            var url = location.pathname.replace(/^\/admin\/edit/i, "");
+            var params = JSON.stringify({
+                changes: {
+                    body: document.querySelector("#editor").innerHTML,
+                    title: document.querySelector("#title").value,
+                    intro: document.querySelector("#subtitle").textContent,
+                    author: 1
+                }
+            });
+            http.open('PUT', url, true);
+            console.log(url)
+
+            http.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+
+            http.onreadystatechange = function() {
+                if(http.readyState == 4 && http.status == 200) {
+                    location.reload()
+                }
+            }
+            http.send(params);
+        }

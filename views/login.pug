@@ -1,0 +1,47 @@
+doctype html
+head
+    title Log in
+    style.
+        body {
+            background: #111;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            margin: 75px auto;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            color: #eee;
+            padding: 10px;
+            margin: 5px 0;
+            background: inherit;
+            border-radius: 5px;
+            font-size: 20px;
+            border: solid 1px #222;
+            transition: border-color 0.25s ease;
+        }
+
+        input:focus {
+            outline: 0;
+            border: solid 2px #229;
+            margin: 4px -1px;
+        }
+
+        input[type=submit] {
+            background: #229;
+            border: 0;
+        }
+
+        input[type=submit]:hover {
+            background: #33a;
+        }
+body
+    form(action='/admin/login', method='post')
+        input(type='text', name='username', placeholder='Username')
+        input(type='password', name='password', placeholder='Password')
+        input(type="hidden", name="from", value=from)
+        input(type='submit')
